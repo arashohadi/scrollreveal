@@ -14,6 +14,7 @@ export default function style(element) {
 	const computed = window.getComputedStyle(element.node)
 	const position = computed.position
 	const config = element.config
+	const origin = element.node.dataset.origin || config.origin
 
 	/**
 	 * Generate inline styles
@@ -47,14 +48,14 @@ export default function style(element) {
 	const transformations = []
 
 	if (parseFloat(config.distance)) {
-		const axis = config.origin === 'top' || config.origin === 'bottom' ? 'Y' : 'X'
+		const axis = origin === 'top' || origin === 'bottom' ? 'Y' : 'X'
 
 		/**
 		 * Let’s make sure our our pixel distances are negative for top and left.
 		 * e.g. { origin: 'top', distance: '25px' } starts at `top: -25px` in CSS.
 		 */
 		let distance = config.distance
-		if (config.origin === 'top' || config.origin === 'left') {
+		if (origin === 'top' || origin === 'left') {
 			distance = /^-/.test(distance) ? distance.substr(1) : `-${distance}`
 		}
 

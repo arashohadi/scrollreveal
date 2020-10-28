@@ -275,6 +275,7 @@ function style(element) {
 	var computed = window.getComputedStyle(element.node);
 	var position = computed.position;
 	var config = element.config;
+	var origin = element.node.dataset.origin || config.origin;
 
 	/**
 	 * Generate inline styles
@@ -308,14 +309,14 @@ function style(element) {
 	var transformations = [];
 
 	if (parseFloat(config.distance)) {
-		var axis = config.origin === 'top' || config.origin === 'bottom' ? 'Y' : 'X';
+		var axis = origin === 'top' || origin === 'bottom' ? 'Y' : 'X';
 
 		/**
 		 * Let’s make sure our our pixel distances are negative for top and left.
 		 * e.g. { origin: 'top', distance: '25px' } starts at `top: -25px` in CSS.
 		 */
 		var distance = config.distance;
-		if (config.origin === 'top' || config.origin === 'left') {
+		if (origin === 'top' || origin === 'left') {
 			distance = /^-/.test(distance) ? distance.substr(1) : ("-" + distance);
 		}
 
